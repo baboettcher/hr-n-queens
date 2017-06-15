@@ -131,32 +131,31 @@
     // test if a specific major diagonal on this board contains a conflict
 
 
-/*    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      var counter = 0;
-      for (var i = majorDiagonalColumnIndexAtFirstRow; i < this.rows().length; i++) {
-        counter += this.rows()[i][majorDiagonalColumnIndexAtFirstRow + i];
-      }
-      return counter > 1; // fixme
-    },
-
-*/
-
   hasMajorDiagonalConflictAt: function( majorDiagonalColumnIndexAtFirstRow) {
       var counter = 0;
-      var r = 0 // temp row
-      for (var i = majorDiagonalColumnIndexAtFirstRow; i < this.rows().length; i++) {
-        counter += this.get(r)[i];
-        console.log(i, this.get(r)[i]);
-        r++
+      var n = this.get('n');
+
+      // rows (r) increase from 0 to n
+      var r = 0
+
+      // colummns (c) go from param to n
+      for (var c = majorDiagonalColumnIndexAtFirstRow; c < n; c++) {
+        counter += this.get(r)[c];
+        //console.log(r, c,  this.get(r)[c]);
+        r++;
+
       }
-      return counter > 1; // fixme
-    },
+    return counter > 1;
+  },
 
 
-    // test if any major diagonals on this board contain conflicts
-    hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
-    },
+  // test if any major diagonals on this board contain conflicts
+  hasAnyMajorDiagonalConflicts: function() {
+
+
+
+    return false; // fixme
+  },
 
 
 
@@ -193,5 +192,6 @@ var b = new Board({
   n: 4
 });
 b.togglePiece(0,1);
-b.togglePiece(1,2);
+b.togglePiece(1,3);
+b.togglePiece(2,3);
 console.log(b.hasMajorDiagonalConflictAt(1));
