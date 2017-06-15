@@ -81,19 +81,22 @@
         // test if a specific row on this board contains a conflict
         hasRowConflictAt: function(rowIndex) {
           var counter = 0;
-          for (var i=0; i < this.rows()[rowIndex].length; i++) {
-            console.log(this.rows()[rowIndex][i].length);
-            if (this.rows()[rowIndex][i] === 1) {
-              counter++;
-            }
+          for (var i = 0; i < this.rows()[rowIndex].length; i++) {
+            counter += this.rows()[rowIndex][i];
           }
-          return counter > 1;
+           return counter > 1;
         },
 
-          // test if any rows on this board contain conflicts
-          hasAnyRowConflicts: function() {
-              return false; // fixme
-            },
+        // test if any rows on this board contain conflicts
+        hasAnyRowConflicts: function() {
+          var n = this.get('n');
+          for (var i = 0; i < n; i++) {
+            if (this.hasRowConflictAt(i)) {
+              return true;
+            }
+          }
+          return false;
+        },
 
 
 
@@ -154,3 +157,6 @@
       };
 
     }());
+
+console.log("test");
+var b = new Board({n: 5});
