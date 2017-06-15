@@ -143,8 +143,11 @@
 
   hasMajorDiagonalConflictAt: function( majorDiagonalColumnIndexAtFirstRow) {
       var counter = 0;
+      var r = 0 // temp row
       for (var i = majorDiagonalColumnIndexAtFirstRow; i < this.rows().length; i++) {
-        counter += this.get(i)[i];
+        counter += this.get(r)[i];
+        console.log(i, this.get(r)[i]);
+        r++
       }
       return counter > 1; // fixme
     },
@@ -170,7 +173,7 @@
       return false; // fixme
     }
 
-    /*--------------------  End of Helper Functions  ---------------------*/
+    /*--------------------  End of Helper Functions  ---------------------*/ //
 
 
   });
