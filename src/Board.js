@@ -131,20 +131,36 @@
     // test if a specific major diagonal on this board contains a conflict
 
 
+  // this works for 3 of the 5 possibilities
   hasMajorDiagonalConflictAt: function( majorDiagonalColumnIndexAtFirstRow) {
       var counter = 0;
       var n = this.get('n');
 
-      // rows (r) increase from 0 to n
-      var r = 0
 
-      // colummns (c) go from param to n
-      for (var c = majorDiagonalColumnIndexAtFirstRow; c < n; c++) {
-        counter += this.get(r)[c];
-        //console.log(r, c,  this.get(r)[c]);
-        r++;
+      // TOTAL POSSIBLE 1-2-3-4-5
 
-      }
+      // PART 1 - CHECK 3-4-5
+      // rows (r) increase from 0, until for loop ends
+
+
+      // First, check entire diagonal beginning from given column index at row 0. Originally, this was:
+       var r = 0;
+      // change to:
+      // r = rowIteration
+/*
+      var rowIteration = n;
+
+      for (var r = 0; r<rowIteration; r++){
+
+        counter = 0; // counter reset for each new row*/
+
+        // Build the diagonal moving across columns (c) go from param to n
+        for (var c = majorDiagonalColumnIndexAtFirstRow; c < n; c++) {
+          counter += this.get(r)[c];
+          console.log("R",r, "C", c,  "VAL", this.get(r)[c]);
+          r++;
+        }
+
     return counter > 1;
   },
 
@@ -152,9 +168,18 @@
   // test if any major diagonals on this board contain conflicts
   hasAnyMajorDiagonalConflicts: function() {
 
+    // iterate from 0 to n-1 and check haMajorDiagonalConflict
 
+    var n = this.get('n');
 
-    return false; // fixme
+    for (var i=0; i<n; i++){
+      if (this.hasMajorDiagonalConflictAt(i)){
+        return true;
+      }
+    }
+
+    return false;
+
   },
 
 
@@ -164,7 +189,12 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+
+
+
+
+
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
@@ -191,7 +221,11 @@
 var b = new Board({
   n: 4
 });
+
 b.togglePiece(0,1);
-b.togglePiece(1,3);
-b.togglePiece(2,3);
-console.log(b.hasMajorDiagonalConflictAt(1));
+b.togglePiece(1,2);
+//b.togglePiece(2,3);
+console.log("hmdca - 0, should be false" , b.hasMajorDiagonalConflictAt(0));
+console.log("hmdca - 1, should be true" , b.hasMajorDiagonalConflictAt(1));
+console.log("hANYmdc , should be true" , b.hasAnyMajorDiagonalConflicts());
+
