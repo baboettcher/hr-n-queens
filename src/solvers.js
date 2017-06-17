@@ -15,31 +15,59 @@
 
 
 
+// window.findNRooksSolution = function(n) {
+//   //create a new board
+//   var solution = new Board({n: n});
+//   //use nested for loops to go through every coordinate on the board
+//   for (var x = 0; x < n; x++) {
+//     for (var y = 0; y < n; y++) {
+//       //at each coordinte, toggle the piece to 1
+//       solution.togglePiece(x, y);
+//       //if when you toggle that piece, it creates a rooks conflict on the board
+//       if (solution.hasAnyRooksConflicts()) {
+//         //toggle that piece back to 0 to get rid of conflict
+//         solution.togglePiece(x, y);
+//
+//       }
+//     }
+//   }
+//   for (var i = 0; i < n; i++) {
+//     console.log(solution.rows()[i]);
+//   }
+//   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+//   return solution.rows();
+// };
+
 window.findNRooksSolution = function(n) {
   //create a new board
   var solution = new Board({n: n});
-  //use nested for loops to go through every coordinate on the board
-  for (var x = 0; x < n; x++) {
-    for (var y = 0; y < n; y++) {
-      //at each coordinte, toggle the piece to 1
-      solution.togglePiece(x, y);
-      console.log(solution);
-      //if when you toggle that piece, it creates a rooks conflict on the board
+  //recursive function
+  var callback = function(row) {
+    //base case: stop the search when row is equal to n
+    if (row === n) {
+      return solution;
+    }
+    //iterate through n staring at the first column
+    for (var colIndex = 0; colIndex < n; colIndex++) {
+      //toggle the piece at that coordinate
+      solution.togglePiece(row, colIndex);
+      //check if toggling that piece creates any rooks conflicts
       if (solution.hasAnyRooksConflicts()) {
-        //toggle that piece back to 0 to get rid of conflict
-        solution.togglePiece(x, y);
-        console.log(solution.rows());
-
+        //if it does, toggle taht piece back
+        solution.togglePiece(row, colIndex);
+        //else call inner recursive function on the next row
+      } else {
+        callback(row + 1);
       }
     }
+
+  };
+  //call recursive function on row 0
+  callback(0);
+
+  for (var i = 0; i < n; i++) {
+    console.log(solution.rows()[i]);
   }
-
-  console.log(solution.rows()[0]);
-  console.log(solution.rows()[1]);
-  console.log(solution.rows()[2]);
-  console.log(solution.rows()[3]);
-
-
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution.rows();
 };
