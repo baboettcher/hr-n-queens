@@ -136,7 +136,7 @@
       var counter = 0;
       var x = majorDiagonalRowIndex || 0;
       for (var y = majorDiagonalColumnIndexAtFirstRow; y < this.rows().length && x < this.rows().length; y++, x++) {
-          counter += this.rows()[x][y];
+        counter += this.rows()[x][y];
       }
       return (counter > 1);
     },
@@ -165,7 +165,7 @@
       var counter = 0;
       var x = minorDiagonalRowIndex || 0;
       for (var y = minorDiagonalColumnIndexAtFirstRow; y < this.rows().length && y >= 0 && x < this.rows().length; x++, y--) {
-          counter += this.rows()[x][y];
+        counter += this.rows()[x][y];
       }
       return counter > 1;
     },
