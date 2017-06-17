@@ -53,7 +53,7 @@ window.findNRooksSolution = function(n) {
       solution.togglePiece(row, colIndex);
       //check if toggling that piece creates any rooks conflicts
       if (solution.hasAnyRooksConflicts()) {
-        //if it does, toggle taht piece back
+        //if it does, toggle that piece back
         solution.togglePiece(row, colIndex);
         //else call inner recursive function on the next row
       } else {
@@ -76,27 +76,57 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var solutionCount = undefined; //fixme
 
-    // create a new board of zeros
+  // create a new board of zeros
 
-    // instaniate a function / sub-routine, pass in the board
+  // instaniate a function / sub-routine, pass in the board
 
-      // establish a base case that once i hit n, increase solution count
+  // establish a base case that once i hit n, increase solution count
 
-      // else iterate through columns looking for place w/o conflict
+  // else iterate through columns looking for place w/o conflict
 
-        // place piece and check for conflicts
+  // place piece and check for conflicts
 
-          // if conflict, do not toggle and continue iteration
+  // if conflict, do not toggle and continue iteration
 
-          // if not conflict then advance the...
-
-
+  // if not conflict then advance the...
 
 
+  //create a new board
+  var solution = new Board({n: n});
+  //recursive function
+  var callback = function(row) {
+    //base case: stop the search when row is equal to n
+    if (row === n) {
+      solutionCount++;
+      return;
+    }
+
+    //iterate through n staring at the first column
+    for (var colIndex = 0; colIndex < n; colIndex++) {
+
+      //toggle the piece at that coordinate
+      solution.togglePiece(row, colIndex);
+
+      //check if toggling that piece creates any rooks conflicts
+      if (!solution.hasAnyRooksConflicts()) {
+        //if it does, toggle that piece back
+        callback(row + 1);
+        //else call inner recursive function on the next row
+      } else {
+        solution.togglePiece(row, colIndex);
+      }
+    }
+  };
+
+  //call recursive function on row 0
+  callback(0);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
+
+
+
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
@@ -117,7 +147,9 @@ window.countNQueensSolutions = function(n) {
 
 
 
-var b = new Board({n:4});
-b.togglePiece(0,0);
-b.togglePiece(0,1);
+var b = new Board({
+  n: 4
+});
+b.togglePiece(0, 0);
+b.togglePiece(0, 1);
 console.log(b.hasAnyRooksConflicts());
