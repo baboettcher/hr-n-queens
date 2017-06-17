@@ -74,48 +74,58 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0; //fixme
 
   // create a new board of zeros
-
   // instaniate a function / sub-routine, pass in the board
-
   // establish a base case that once i hit n, increase solution count
-
   // else iterate through columns looking for place w/o conflict
-
   // place piece and check for conflicts
-
   // if conflict, do not toggle and continue iteration
-
   // if not conflict then advance the...
 
 
   //create a new board
   var solution = new Board({n: n});
+
   //recursive function
   var callback = function(row) {
+
+
+
     //base case: stop the search when row is equal to n
     if (row === n) {
+
       solutionCount++;
+
+      // clear theboard
+      solution = new Board({n: n});
       return;
     }
 
-    //iterate through n staring at the first column
+    // COLUMN ITERATION: iterate through n staring at the first column
     for (var colIndex = 0; colIndex < n; colIndex++) {
 
-      //toggle the piece at that coordinate
+      // place piece
       solution.togglePiece(row, colIndex);
 
-      //check if toggling that piece creates any rooks conflicts
-      if (!solution.hasAnyRooksConflicts()) {
-        //if it does, toggle that piece back
-        callback(row + 1);
-        //else call inner recursive function on the next row
-      } else {
+      // check if toggling that piece creates any rooks conflicts
+      if (solution.hasAnyRooksConflicts()) {
+
+        // YES, CONFLICT! toggle that piece back and continue COLUMN ITERATION
         solution.togglePiece(row, colIndex);
-      }
+
+
+      } else {
+
+        // NO CONFLICT, move to next row
+         callback(row + 1);
+
+
+      } // COLUMN ITERATION
+
     }
+
   };
 
   //call recursive function on row 0
