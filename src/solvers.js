@@ -23,32 +23,97 @@ window.findNRooksSolution = function(n) {
     for (var y = 0; y < n; y++) {
       //at each coordinte, toggle the piece to 1
       solution.togglePiece(x, y);
-      console.log(solution);
+      //console.log(solution);
       //if when you toggle that piece, it creates a rooks conflict on the board
       if (solution.hasAnyRooksConflicts()) {
         //toggle that piece back to 0 to get rid of conflict
         solution.togglePiece(x, y);
-        console.log(solution.rows());
+        //console.log(solution.rows());
 
       }
     }
   }
 
-  console.log(solution.rows()[0]);
+/* console.log(solution.rows()[0]);
   console.log(solution.rows()[1]);
   console.log(solution.rows()[2]);
   console.log(solution.rows()[3]);
+*/
 
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  //console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
 
-    // create a new board of zeros
+  var solutionCount = 0;
+  var testBoard = new Board({n:n});
+
+  console.log("---test--")
+  console.log(testBoard.rows()[0]);
+  console.log(testBoard.rows()[1]);
+  console.log(testBoard.rows()[2]);
+  console.log(testBoard.rows()[3]);
+  console.log("----------")
+
+
+  var checkEachCol = function(n){
+
+    var row = 0;
+
+    // Piece #1 - iterate across the columns
+    for (var col=0; col<n; col++){
+
+      // place piece
+      testBoard.togglePiece(row,col);
+
+      // check for conflicts
+      if (!testBoard.hasAnyRooksConflicts()){
+
+        // no conflicts, advance row
+        row++;
+
+        // begin again checking columns
+        for (var innerCol = 0; innerCol<n; innerCol++){
+
+          // place piece
+          testBoard.togglePiece(row, innerCol);
+
+          // check for conflicts
+          if (!testBoard.hasAnyRooksConflicts()){
+
+            // no conflicts, advance row
+            row++
+
+            // check for conflicts
+            for (var innerInnerCol = 0; innerInnerCol<n; innerInnerCol++){
+
+              // place piece
+              testBoard.togglePiece(row, innerInnerCol);
+
+              // check for conflicts, advance row.. etce
+
+            }
+
+        }
+        //continue;
+      }
+
+    }
+
+  }
+
+      console.log(testBoard.rows()[0]);
+      console.log(testBoard.rows()[1]);
+      console.log(testBoard.rows()[2]);
+      console.log(testBoard.rows()[3]);
+
+
+  }
+
+  checkEachCol(n);
+
 
     // instaniate a function / sub-routine, pass in the board
 
@@ -64,9 +129,9 @@ window.countNRooksSolutions = function(n) {
 
 
 
+  console.log(testBoard);
 
-
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  //console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
@@ -93,3 +158,6 @@ var b = new Board({n:4});
 b.togglePiece(0,0);
 b.togglePiece(0,1);
 console.log(b.hasAnyRooksConflicts());
+
+
+countNRooksSolutions(4);
