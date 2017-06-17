@@ -136,7 +136,9 @@
       var counter = 0;
       var x = majorDiagonalRowIndex || 0;
       for (var y = majorDiagonalColumnIndexAtFirstRow; y < this.rows().length && x < this.rows().length; y++, x++) {
-        counter += this.rows()[x][y];
+        if (this._isInBounds(x, y)) {
+          counter += this.rows()[x][y];
+        }
       }
       return (counter > 1);
     },
@@ -157,18 +159,6 @@
 
     },
 
-    //   hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-    //    var counter = 0;
-    //    var y = majorDiagonalColumnIndexAtFirstRow;
-    //    for(var x = 0; x < this.get("n"); x++, y++){
-    //      if(this._isInBounds(x, y)){
-    //        counter += this.rows()[x][y];
-    //      }
-    //    }
-    //    return counter > 1;
-    //  },
-
-
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
@@ -176,12 +166,12 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow, minorDiagonalRowIndex) {
       var counter = 0;
       var x = minorDiagonalRowIndex || 0;
-
-      for (var y = minorDiagonalColumnIndexAtFirstRow; y < this.rows().length && x < this.rows().length; y--, x++) {
-        counter += this.rows()[x][y];
+      for (var y = minorDiagonalColumnIndexAtFirstRow; y < this.rows().length && x < this.rows().length; x++, y--) {
+        if (this._isInBounds(x, y)) {
+          counter += this.rows()[x][y];
+        }
       }
-
-      return false;
+      return counter > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
@@ -195,7 +185,7 @@
           }
         }
       }
-      return false; // fixme
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/ //
@@ -212,14 +202,3 @@
   };
 
 }());
-
-
-var b = new Board({
-  n: 4
-});
-
-b.togglePiece(1, 0);
-b.togglePiece(0, 1);
-// console.log('hmdca - 0, should be false', b.hasMajorDiagonalConflictAt(0));
-// console.log('hmdca - 1, should be true', b.hasMajorDiagonalConflictAt(1));
-// console.log('hANYmdc , should be true', b.hasAnyMajorDiagonalConflicts());
