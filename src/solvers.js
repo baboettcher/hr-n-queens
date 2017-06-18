@@ -94,7 +94,8 @@ window.countNRooksSolutions = function(n) {
   var board = new Board({n: n});
 
   // instaniate a function / sub-routine, pass in the board
-  var callback = function(row) {
+
+/*  var callback = function(row) {
     //base case: once i hit n, increase solution count
     if (row === n) {
       solutionCount++;
@@ -118,17 +119,51 @@ window.countNRooksSolutions = function(n) {
       board.togglePiece(row, colIndex);
     }
   };
+*/
 
   //call recursive function on row 0
-  callback(0);
+  window.oldInner_findSolution(0, n, board, "hasAnyRooksConflicts",function(){
+    solutionCount++;
+  });
+
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
 
-
   return solutionCount;
 
-
 };
+
+
+window.oldInner_findSolution = function(row, n, board, validator, callback) {
+
+  var solutionCount = 0;
+
+    //base case: once i hit n, increase solution count
+    if (row === n) {
+      //solutionCount++;
+      callback();
+      return;
+    }
+
+    //iterate through n staring at the first column
+    for (var colIndex = 0; colIndex < n; colIndex++) {
+
+      //place piece and check for conflicts
+      board.togglePiece(row, colIndex);
+
+      //Recurse into remaining solutions if no rook conflict
+      if (!board[validator]() ){
+        // increment row and
+        window.oldInner_findSolution(row+1, n, board, validator, callback);
+      } //  QUESTION#1
+
+
+      //unplace piece -- but why does this not affect future tests?
+      board.togglePiece(row, colIndex);
+    }
+  };
+
+
 
 
 
@@ -179,6 +214,8 @@ window.countNQueensSolutions = function(n) {
   // create a new board of zeros
   var board = new Board({n: n});
 
+
+/*
   // instaniate a function / sub-routine, pass in the board
   var callback = function(row) {
     //base case: once i hit n, increase solution count
@@ -204,20 +241,23 @@ window.countNQueensSolutions = function(n) {
       board.togglePiece(row, colIndex);
     }
   };
+*/
 
   //call recursive function on row 0
-  callback(0);
-
-
-
+  window.oldInner_findSolution(0, n, board, "hasAnyQueensConflicts", function(){
+    solutionCount++;
+  });
 
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 
-
-
 };
+
+
+
+
+
 
 
 /*
