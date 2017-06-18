@@ -174,9 +174,43 @@ window.findNQueensSolution = function(n) {
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
 
+ var solutionCount = 0;
+
+  // create a new board of zeros
+  var board = new Board({n: n});
+
+  // instaniate a function / sub-routine, pass in the board
+  var callback = function(row) {
+    //base case: once i hit n, increase solution count
+    if (row === n) {
+      solutionCount++;
+      return;
+    }
+
+    //iterate through n staring at the first column
+    for (var colIndex = 0; colIndex < n; colIndex++) {
+
+      //place piece and check for conflicts
+      board.togglePiece(row, colIndex);
+
+      //Recurse into remaining solutions if no rook conflict
+      if (!board.hasAnyQueensConflicts()){
+        // increment row and
+        callback(row+1);
+      } //  QUESTION#1
 
 
-  var solutionCount = undefined; //fixme
+      //unplace piece -- but why does this not affect future tests?
+      board.togglePiece(row, colIndex);
+    }
+  };
+
+  //call recursive function on row 0
+  callback(0);
+
+
+
+
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
