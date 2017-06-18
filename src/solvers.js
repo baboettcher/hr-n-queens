@@ -125,6 +125,22 @@ window.oldInner_findSolution = function(row, n, board, validator, callback) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
 
+  var board = new Board({n:n});
+
+  var solution = board.rows(); //QUESTION#4
+
+
+  oldInner_findSolution(0,n, board, "hasAnyQueensConflicts", function(){
+    //solution = boards.rows(); // callback returns the whole board
+    solution = _.map(board.rows(), function(row){
+      return row.slice();
+    })
+    // QUESTION #3 - 29:03 in video; to return a copy of the row
+  })
+
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  return solution;
+
 };
 
 
