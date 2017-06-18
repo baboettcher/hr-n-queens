@@ -42,40 +42,22 @@
 
 window.findNRooksSolution = function(n) {
   //create a new board
-  var solution = new Board({n: n});
+  var solution = undefined;
+
+  var board = new Board({n:n});
+
+  oldInner_findSolution(0,n, board, "hasAnyRooksConflicts", function(){
+    //solution = boards.rows(); // callback returns the whole board
+    solution = _.map(board.rows(), function(row){
+      return row.slice();
+    })
+    // QUESTION #3 - 29:03 in video; to return a copy of the row
+  })
 
 
-/*  //recursive function
-  var callback = function(row) {
-    //base case: stop the search when row is equal to n
-    if (row === n) {
-      return solution;
-    }
-    //iterate through n staring at the first column
-    for (var colIndex = 0; colIndex < n; colIndex++) {
-      //toggle the piece at that coordinate
-      solution.togglePiece(row, colIndex);
-      //check if toggling that piece creates any rooks conflicts
-      if (solution.hasAnyRooksConflicts()) {
-        //if it does, toggle that piece back
-        solution.togglePiece(row, colIndex);
-        //else call inner recursive function on the next row
-      } else {
-        callback(row + 1);
-      }
-    }
-  };
-  //call recursive function on row 0
-  callback(0);
 
-  // for (var i = 0; i < n; i++) {
-  //   console.log(solution.rows()[i]);
-  // }
-
-
-  */
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution.rows();
+  return solution;
 
 
 };
@@ -90,42 +72,13 @@ window.countNRooksSolutions = function(n) {
 
  var solutionCount = 0;
 
-  // create a new board of zeros
+  // create a new board
   var board = new Board({n: n});
-
-  // instaniate a function / sub-routine, pass in the board
-
-/*  var callback = function(row) {
-    //base case: once i hit n, increase solution count
-    if (row === n) {
-      solutionCount++;
-      return;
-    }
-
-    //iterate through n staring at the first column
-    for (var colIndex = 0; colIndex < n; colIndex++) {
-
-      //place piece and check for conflicts
-      board.togglePiece(row, colIndex);
-
-      //Recurse into remaining solutions if no rook conflict
-      if (!board.hasAnyRooksConflicts()){
-        // increment row and
-        callback(row+1);
-      } //  QUESTION#1
-
-
-      //unplace piece -- but why does this not affect future tests?
-      board.togglePiece(row, colIndex);
-    }
-  };
-*/
 
   //call recursive function on row 0
   window.oldInner_findSolution(0, n, board, "hasAnyRooksConflicts",function(){
     solutionCount++;
   });
-
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
 
@@ -172,34 +125,6 @@ window.oldInner_findSolution = function(row, n, board, validator, callback) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
 
-/*var solution = new Board({n: n});
-  //recursive function
-  var callback = function(row) {
-    //base case: stop the search when row is equal to n
-    if (row === n) {
-      return solution;
-    }
-    //iterate through n staring at the first column
-    for (var colIndex = 0; colIndex < n; colIndex++) {
-      // toggle the piece at that coordinate
-      solution.togglePiece(row, colIndex);
-      //check if there are any queens conflicts
-      if (!solution.hasAnyQueensConflicts()) {
-      //if there aren't any conflicts, call inner recursive function on the next row
-        callback(row + 1);
-      }
-      // unplace piece at that coordinate
-      solution.togglePiece(row, colIndex);
-    }
-
-  };
-  //call recursive function on row 0
-  callback(0);
-
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
-
-  */
 };
 
 
@@ -214,40 +139,10 @@ window.countNQueensSolutions = function(n) {
   // create a new board of zeros
   var board = new Board({n: n});
 
-
-/*
-  // instaniate a function / sub-routine, pass in the board
-  var callback = function(row) {
-    //base case: once i hit n, increase solution count
-    if (row === n) {
-      solutionCount++;
-      return;
-    }
-
-    //iterate through n staring at the first column
-    for (var colIndex = 0; colIndex < n; colIndex++) {
-
-      //place piece and check for conflicts
-      board.togglePiece(row, colIndex);
-
-      //Recurse into remaining solutions if no rook conflict
-      if (!board.hasAnyQueensConflicts()){
-        // increment row and
-        callback(row+1);
-      } //  QUESTION#1
-
-
-      //unplace piece -- but why does this not affect future tests?
-      board.togglePiece(row, colIndex);
-    }
-  };
-*/
-
   //call recursive function on row 0
   window.oldInner_findSolution(0, n, board, "hasAnyQueensConflicts", function(){
     solutionCount++;
   });
-
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
